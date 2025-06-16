@@ -47,7 +47,6 @@ Duckflow-CRM/
 ├── deals.csv                 # Synthetic deals data
 ├── hubspot_analysis.ipynb    # Main notebook
 ├── README.md                 # This file
-└── screenshots/              # Visual previews (optional)
 ```
 
 ---
@@ -76,15 +75,6 @@ Duckflow-CRM/
 | amount      | int   | 12000       |
 | close_date  | date  | 2024-08-05  |
 | source      | str   | Referral    |
-
----
-
-## 🛣️ Potential Extensions
-
-- **Auto-SQL:** Integrate an LLM to translate natural language into DuckDB queries
-- **Interactive Dashboard:** Use Streamlit or Plotly for live filtering and exploration
-- **Parquet/Arrow Output:** Support for lightweight downstream BI tools
-- **Notebook CI Tests:** Add automated tests with `papermill` and `pytest`
 
 ---
 
