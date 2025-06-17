@@ -28,7 +28,7 @@
 ## 🚀 Quick Start
 
 ```bash
-git clone https://github.com/<your-user>/Duckflow-CRM.git
+git clone https://github.com/KaanDRoid/Duckflow-CRM.git
 cd Duckflow-CRM
 python -m venv .venv && source .venv/bin/activate   # optional
 pip install duckdb pandas matplotlib jupyter
