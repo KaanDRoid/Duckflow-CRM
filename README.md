@@ -1,13 +1,13 @@
 # 🦆 Duckflow CRM
 
-**Duckflow CRM** is a quick, one-day proof-of-concept that helps you turn messy CRM exports into clear, visual insights—within minutes, and without the need for an external database.
+**Duckflow CRM** is a quick, one day proof of concept that helps you turn messy CRM exports into clear, visual insights within minutes, and without the need for an external database.
 
 - **Engine:** [DuckDB](https://duckdb.org/) (in-process SQL OLAP)
 - **Notebook:** Jupyter (Python 3.10+)
 - **Visualization:** Matplotlib
 
 > 💡 **Why DuckDB?**  
-> DuckDB allows analysts to process everything locally (CSV → SQL → chart) while still handling millions of rows with sub-second query speeds.
+> DuckDB allows analysts to process everything locally (CSV → SQL → chart) while still handling millions of rows with sub second query speeds.
 
 ---
 
@@ -30,7 +30,6 @@
 ```bash
 git clone https://github.com/KaanDRoid/Duckflow-CRM.git
 cd Duckflow-CRM
-python -m venv .venv && source .venv/bin/activate   # optional
 pip install duckdb pandas matplotlib jupyter
 jupyter notebook hubspot_analysis.ipynb
 ```
