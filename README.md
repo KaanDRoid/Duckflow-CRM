@@ -1,86 +1,50 @@
-# 🦆 Duckflow CRM
+# Duckflow CRM
 
-**Duckflow CRM** is a quick, one day proof of concept that helps you turn messy CRM exports into clear, visual insights within minutes, and without the need for an external database.
+A small, one-day proof of concept for analysing CRM exports with DuckDB inside a Jupyter notebook. Two CSV exports (contacts and deals) are loaded into an in-memory DuckDB database, cleaned and enriched with SQL, and summarised with a few Matplotlib charts. No database server is needed.
 
-- **Engine:** [DuckDB](https://duckdb.org/) (in-process SQL OLAP)
-- **Notebook:** Jupyter (Python 3.10+)
-- **Visualization:** Matplotlib
+## Data
 
-> 💡 **Why DuckDB?**  
-> DuckDB allows analysts to process everything locally (CSV → SQL → chart) while still handling millions of rows with sub second query speeds.
+Both files are synthetic, HubSpot-style exports:
 
----
+- `contacts.csv`: 100 contacts. Columns: `contact_id`, `email`, `industry` (5 missing), `created_at`, `owner` (Alice, Bob, Charlie, Diana), `company_size` (9 to 498, so 93 of the 100 contacts end up in the Enterprise segment), `country`.
+- `deals.csv`: 150 deals linked to contacts by `contact_id`. Columns: `deal_id`, `contact_id`, `stage` (Discovery, Proposal, Negotiation, Closed Won, Closed Lost), `amount` (17 missing), `close_date` (all in 2024), `source`.
 
-## ✨ Features & Workflow
+## What the notebook does
 
-| Step        | Goal                                             | Outcome                    |
-|-------------|--------------------------------------------------|----------------------------|
-| **1. Load**     | Import raw CSVs (`contacts`, `deals`) into DuckDB      | Zero-config ingestion      |
-| **2. Clean**    | Handle nulls, fix data types                          | Consistent tables          |
-| **3. Enrich**   | Derive company size segments, date parts, etc.        | Enhanced analytics         |
-| **4. Analyze**  | Run SQL snippets or simple "recipes" in Python        | KPIs & cohorts             |
-| **5. Visualize**| Create bar/line charts with a few lines of Python     | Instant visual storytelling|
+1. Loads both CSVs into DuckDB with `read_csv_auto`.
+2. Cleaning: missing `industry` becomes `Unknown`, missing `amount` becomes 0.
+3. Enrichment: adds a `size_segment` column (Small up to 10 employees, Medium up to 50, Enterprise above) and stores it as the `enriched_contacts` table.
+4. Charts: top 5 industries by total deal amount, and total deal amount per month of `close_date`.
+5. Example question: total deal amount with enterprise companies per contact owner.
 
-> Screenshots are available in **`/screenshots`** for a preview without running the code.
+## Results
 
----
+Total deal amount with enterprise companies by owner (all deal stages):
 
-## 🚀 Quick Start
+| Owner   | Total amount |
+|---------|-------------:|
+| Diana   | 455,483 |
+| Alice   | 323,488 |
+| Bob     | 250,386 |
+| Charlie | 172,062 |
+
+## How to run
 
 ```bash
 git clone https://github.com/KaanDRoid/Duckflow-CRM.git
 cd Duckflow-CRM
-pip install duckdb pandas matplotlib jupyter
+pip install -r requirements.txt
 jupyter notebook hubspot_analysis.ipynb
 ```
 
-Run the notebook cells from top to bottom. Tweak queries as needed!
+Run the cells from top to bottom.
 
----
-
-## 📁 Repository Structure
+## Repo layout
 
 ```
-Duckflow-CRM/
-├── contacts.csv              # Synthetic contact data
-├── deals.csv                 # Synthetic deals data
-├── hubspot_analysis.ipynb    # Main notebook
-├── README.md                 # This file
+hubspot_analysis.ipynb   # the analysis notebook
+contacts.csv             # synthetic contacts
+deals.csv                # synthetic deals
+requirements.txt
+LICENSE                  # MIT
 ```
-
----
-
-## 🗂️ Data Schema
-
-**contacts.csv**
-
-| Column        | Type  | Example                                   |
-|---------------|-------|-------------------------------------------|
-| contact_id    | str   | C0042                                     |
-| email         | str   | user42@corp.com                           |
-| industry      | str   | Healthcare                                |
-| created_at    | date  | 2024-04-17                                |
-| owner         | str   | Alice                                     |
-| company_size  | int   | 120                                       |
-| country       | str   | USA                                       |
-
-**deals.csv**
-
-| Column      | Type  | Example     |
-|-------------|-------|-------------|
-| deal_id     | str   | D0108       |
-| contact_id  | str   | C0042       |
-| stage       | str   | Closed Won  |
-| amount      | int   | 12000       |
-| close_date  | date  | 2024-08-05  |
-| source      | str   | Referral    |
-
----
-
-## 📜 License
-
-MIT License — fork, remix, and build as you wish!
-
----
-
-Made with ☕, 🐍, and a sprinkle of 🦆.
